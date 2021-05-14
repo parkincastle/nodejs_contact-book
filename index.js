@@ -60,21 +60,21 @@ app.post('/contacts', function(req, res){
   });
 });
 
-// Contacts - show // 3
+// Contacts - show // "contacts/:id"에 get 요청이 오는 경우
 app.get('/contacts/:id', function(req, res){
   Contact.findOne({_id:req.params.id}, function(err, contact){
     if(err) return res.json(err);
     res.render('contacts/show', {contact:contact});
   });
 });
-// Contacts - edit // 4
+// Contacts - edit //  "contacts/:id/edit"에 get 요청이 오는 경우
 app.get('/contacts/:id/edit', function(req, res){
   Contact.findOne({_id:req.params.id}, function(err, contact){
     if(err) return res.json(err);
     res.render('contacts/edit', {contact:contact});
   });
 });
-// Contacts - update // 5
+// Contacts - update // "contacts/:id"에 put 요청이 오는 경우
 app.put('/contacts/:id', function(req, res){
   Contact.findOneAndUpdate({_id:req.params.id}, req.body, function(err, contact){
     if(err) return res.json(err);
