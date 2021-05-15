@@ -21,6 +21,7 @@ db.on('error', function(err){
   console.log('DB ERROR : ', err);
 });
 
+
 // Other settings
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname+'/public'));
