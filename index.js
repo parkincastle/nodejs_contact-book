@@ -20,7 +20,7 @@ db.once('open', function(){
 db.on('error', function(err){
   console.log('DB ERROR : ', err);
 });
-
+// nest추천
 
 // Other settings
 app.set('view engine', 'ejs');
@@ -29,71 +29,12 @@ app.use(bodyParser.json()); // json 형식의 데이터를 받는 설정
 app.use(bodyParser.urlencoded({extended:true})); // urlencoded data를 extended 알고리증을 사용해서 분석하는 설정
 app.use(methodOverride('_method')); //  HTTP method를 _method의 query로 들어오는 값으로 바꾼다
 
-// DB schema // mongoose.Schema 함수로 DB에서 사용할 schema를 설정
-var contactSchema = mongoose.Schema({
-  name:{type:String, required:true, unique:true},
-  email:{type:String},
-  phone:{type:String}
-});
-var Contact = mongoose.model('contact', contactSchema); // mongoose.model함수를 사용하여 contact schema의 model을 생성
-
-// Routes
-// Home // "/"에 get 요청이 오는 경우
-app.get('/', function(req, res){
-  res.redirect('/contacts');
-});
-// Contacts - Index // "/contacts"에 get 요청이 오는 경우
-app.get('/contacts', function(req, res){
-  Contact.find({}, function(err, contacts){
-    if(err) return res.json(err);
-    res.render('contacts/index', {contacts:contacts});
-  });
-});
-// Contacts - New // "/contacts/new"에 get 요청이 오는 경우
-app.get('/contacts/new', function(req, res){
-  res.render('contacts/new');
-});
-// Contacts - create // "/contacts"에 post 요청이 오는 경우
-app.post('/contacts', function(req, res){
-  Contact.create(req.body, function(err, contact){
-    if(err) return res.json(err);
-    res.redirect('/contacts');
-  });
-});
-
-// Contacts - show // "contacts/:id"에 get 요청이 오는 경우
-app.get('/contacts/:id', function(req, res){
-  Contact.findOne({_id:req.params.id}, function(err, contact){
-    if(err) return res.json(err);
-    res.render('contacts/show', {contact:contact});
-  });
-});
-// Contacts - edit //  "contacts/:id/edit"에 get 요청이 오는 경우
-app.get('/contacts/:id/edit', function(req, res){
-  Contact.findOne({_id:req.params.id}, function(err, contact){
-    if(err) return res.json(err);
-    res.render('contacts/edit', {contact:contact});
-  });
-});
-// Contacts - update // "contacts/:id"에 put 요청이 오는 경우
-app.put('/contacts/:id', function(req, res){
-  Contact.findOneAndUpdate({_id:req.params.id}, req.body, function(err, contact){
-    if(err) return res.json(err);
-    res.redirect('/contacts/'+req.params.id);
-  });
-});
-// Contacts - destroy // 6
-app.delete('/contacts/:id', function(req, res){
-  Contact.deleteOne({_id:req.params.id}, function(err){
-    if(err) return res.json(err);
-    res.redirect('/contacts');
-  });
-});
+// Routes : app.use('route', 콜백_함수)는 해당 route에 요청이 오는 경우에만 콜백 함수를 호출
+app.use('/', require('./routes/home'));
+app.use('/contacts', require('./routes/contacts'));
 
 // Port setting
 var port = 3000;
 app.listen(port, function(){
   console.log("server on! http://localhost:" + port);
 });
-
-
