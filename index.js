@@ -20,6 +20,7 @@ db.once('open', function(){
 db.on('error', function(err){
   console.log('DB ERROR : ', err);
 });
+
 // nest추천
 
 // Other settings

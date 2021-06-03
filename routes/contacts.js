@@ -47,7 +47,7 @@ router.put('/:id', function(req, res){
   });
 });
 
-// Contacts - destroy // 6
+// Contacts - destroy // "contacts/:id"에 delete 요청이 오는 경우
 router.delete('/:id', function(req, res){
   Contact.deleteOne({_id:req.params.id}, function(err){
     if(err) return res.json(err);

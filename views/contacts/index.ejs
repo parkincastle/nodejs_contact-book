@@ -10,7 +10,7 @@
       <h2>Index</h2>
       <ul>
         <% contacts.forEach(function(contact) { %> <!-- 코드를 반복해서 표시 -->
-            <li>
+            <li class="list-group-item">
                 <a href="/contacts/<%= contact._id %>"><%= contact.name %></a> <!-- show action과 연결 -->          
             </li>
         <% }) %>
